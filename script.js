@@ -16,10 +16,11 @@ let num = [];
 let score = 0;
 let currentQ = 0;
 let totalQ = 10;
-// questionbox.style.display = "none";
-// choicesbox.style.display = "none";
-// submit.style.display = "none";
-// skip.style.display = "none";
+questionbox.style.display = "none";
+choicesbox.style.display = "none";
+submit.style.display = "none";
+skip.style.display = "none";
+QNum.style.display = "none";
 
 // Decode HTML entities from Trivia DB API
 function decodeHtml(html) {
@@ -212,4 +213,5 @@ start.addEventListener('click', () => {
     choicesbox.style.display = "block";
     submit.style.display = "block";
     skip.style.display = "block";
+    QNum.style.display = "flex";
 });

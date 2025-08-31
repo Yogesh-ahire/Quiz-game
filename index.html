@@ -1,44 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz app using JS</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz app using JS</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <div class="container">
-        <div style="display: none;" id="welcome">
-            <h1>
-                <span class="emoji">🎯</span>
-                <span class="title-wrapper">
-                    <span class="title">Let's Play<br>a Quiz Game</span>
-                </span>
-            </h1>
-            <ul>
-                <li>There will be total 10 Questions</li>
-                <li>Each Question is worth 5 points</li>
-                <li>Wrong answer deducts 2 points</li>
-                <li>You can skip, but cannot reattempt that question</li>
-            </ul>
+  <div class="container">
 
-            <button id="start"">Start Quiz</button>
-        </div>
-
-        <div class=" QNum">
-                <span id="progressText">1/10</span>
-        </div>
-
-        <div class="question"></div>
-        <div class="choices"></div>
-        <button style="display: block; " class="btn nextBtn">Submit</button>
-        <button class="next">Skip</button>
-        <div class="scoreCard"></div>
+    <!-- Welcome / Rules Section -->
+    <div id="welcome">
+      <h1>
+        <span class="emoji">🎯</span>
+        <span class="title-wrapper">
+          <span class="title">Let's Play<br>a Quiz Game</span>
+        </span>
+      </h1>
+      <ul>
+        <li>There will be total 10 Questions</li>
+        <li>Each Question is worth 5 points</li>
+        <li>Wrong answer deducts 2 points</li>
+        <li>You can skip, but cannot reattempt that question</li>
+      </ul>
+      <button id="start">Start Quiz</button>
     </div>
 
-    <script type="module" src="./script.js"></script>
-</body>
+    <!-- Progress Circle -->
+    <div class="QNum">
+      <span id="progressText">1/10</span>
+    </div>
 
+    <!-- Question & Choices -->
+    <div class="question"></div>
+    <div class="choices"></div>
+
+    <!-- Buttons -->
+    <button class="btn nextBtn">Submit</button>
+    <button class="next">Skip</button>
+
+    <!-- Score Area -->
+    <div class="scoreCard"></div>
+  </div>
+
+  <script type="module" src="./script.js"></script>
+</body>
 </html>
