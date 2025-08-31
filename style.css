@@ -1,0 +1,230 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body{
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(to right bottom, #08203e, #557c93);
+    color: #ffff;
+    display: grid;
+    place-items: center;   
+}
+
+.container{
+    width: 80%;
+    max-width: 850px;
+    padding: 30px;
+    text-align: center;
+}
+
+
+/* Notice Board Card */
+#welcome {
+  background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+  padding: 35px;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  max-width: 650px;
+  margin: 80px auto;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(12px);
+}
+
+/* Heading Container */
+#welcome h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 25px;
+  display: flex;              /* emoji + text */
+  align-items: center;
+  justify-content: center;
+  gap: 12px;                  /* spacing */
+  text-align: center;
+}
+
+/* Gradient title text */
+#welcome h1 .title {
+  background: linear-gradient(90deg, #00c6ff, #0072ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: glow 2s infinite alternate;
+  letter-spacing: 1px;
+  display: inline-block;
+}
+
+/* Underline only for the text wrapper */
+#welcome h1 .title-wrapper {
+  display: inline-block;
+  position: relative;
+}
+
+#welcome h1 .title-wrapper::after {
+  content: "";
+  display: block;
+  margin: 8px auto 0;
+  width: 140px;
+  height: 3px;
+  background: linear-gradient(90deg, #00c6ff, #0072ff);
+  border-radius: 2px;
+}
+
+/* Glow animation */
+@keyframes glow {
+  from { text-shadow: 0 0 6px #0072ff; }
+  to   { text-shadow: 0 0 20px #00c6ff; }
+}
+
+/* Emoji style */
+#welcome h1 .emoji {
+  font-size: 2.8rem;
+  text-shadow: 0 0 12px #00c6ff, 0 0 20px #0072ff;
+  animation: pulse 1.8s infinite;
+}
+
+/* Emoji pulse animation */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.15); opacity: 0.85; }
+}
+
+/* Checklist-style Instructions */
+#welcome ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  text-align: left;
+  display: inline-block;
+}
+
+#welcome ul li {
+  font-size: 1.1rem;
+  margin: 12px 0;
+  color: #e0e0e0;
+  position: relative;
+  padding-left: 30px;
+}
+
+#welcome ul li::before {
+  content: "✔";
+  color: #4caf50;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+  font-size: 1.2rem;
+}
+
+/* Start Button */
+#welcome button {
+  margin-top: 25px;
+  padding: 14px 28px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #00c853, #009624);
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+#welcome button:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 20px rgba(0, 200, 83, 0.6);
+}
+
+.QNum {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 18px;
+  background: conic-gradient(
+    #00c6ff 0deg, 
+    #00c6ff 0deg, 
+    #ddd 0deg
+  ); /* start empty */
+  color: black;
+  position: relative;
+}
+
+.QNum span {
+  position: absolute;
+  font-size: 18px;
+  font-weight: bold;
+  color: #000;
+}
+
+
+.container .question{
+    font-size: 26px;
+    margin-top: 20px;
+}
+
+.container .choieces{
+    margin-top: 20px;
+}
+
+.choice{
+    font-size: 20px;
+    background-color: #eee;
+    color: #000;
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: left;
+    width: 60%;
+    cursor: pointer;
+}
+
+.choice:hover{
+    background-color: #ddd;
+}
+
+.btn{
+    width: 60%;
+    font-size: 20px;
+    font-weight: 600;
+    padding: 12px 20px;
+    margin: 20px auto 0 auto;
+    background: #006400;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.next{
+    width: 30%;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 12px 20px;
+    margin: 20px auto 0 auto;
+    background: #fff;
+    color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover{
+    background-color: #08780c;
+}
+
+.choice.selected{
+    background-color: #007bff;
+    color: #fff;
+}
+
+.playAgain{
+    width: 60%;
+    font-size: 20px;
+    font-weight: 600;
+}
