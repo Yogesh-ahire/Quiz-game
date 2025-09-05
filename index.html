@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quiz app using JS</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
   <div class="container">
 
@@ -22,27 +24,30 @@
         <li>Each Question is worth 5 points</li>
         <li>Wrong answer deducts 2 points</li>
         <li>You can skip, but cannot reattempt that question</li>
+        <li>It takes 3 seconds to start the Quiz</li>
       </ul>
       <button id="start">Start Quiz</button>
     </div>
 
     <!-- Progress Circle -->
-    <div class="QNum">
-      <span id="progressText">1/10</span>
+    <div class="gameBox">
+      <div class="QNum">
+        <span id="progressText">1/10</span>
+      </div>
+
+      <!-- Question & Choices -->
+      <div class="question"></div>
+      <div class="choices"></div>
+
+      <!-- Buttons -->
+      <button class="btn nextBtn">Submit</button>
+      <button class="next">Skip</button>
+
+      <!-- Score Area -->
+      <div class="scoreCard"></div>
     </div>
-
-    <!-- Question & Choices -->
-    <div class="question"></div>
-    <div class="choices"></div>
-
-    <!-- Buttons -->
-    <button class="btn nextBtn">Submit</button>
-    <button class="next">Skip</button>
-
-    <!-- Score Area -->
-    <div class="scoreCard"></div>
   </div>
-
   <script type="module" src="./script.js"></script>
 </body>
+
 </html>

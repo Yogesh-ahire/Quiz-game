@@ -8,6 +8,8 @@ const scoreCard = document.querySelector('.scoreCard');
 const welcome = document.querySelector('#welcome');
 const start = document.querySelector('#start');
 const QNum = document.querySelector('.QNum');
+const gameBox = document.querySelector('.gameBox');
+
 
 
 let quiz = [];
@@ -16,11 +18,13 @@ let num = [];
 let score = 0;
 let currentQ = 0;
 let totalQ = 10;
-questionbox.style.display = "none";
-choicesbox.style.display = "none";
-submit.style.display = "none";
-skip.style.display = "none";
-QNum.style.display = "none";
+
+gameBox.style.display = "none";
+// questionbox.style.display = "none";
+// choicesbox.style.display = "none";
+// submit.style.display = "none";
+// skip.style.display = "none";
+// QNum.style.display = "none";
 
 // Decode HTML entities from Trivia DB API
 function decodeHtml(html) {
@@ -42,7 +46,7 @@ function shuffle(array) {
 function transformData(apiData) {
     return apiData.results.map(item => {
         return {
-            quistion: "Q. " + decodeHtml(item.question),
+            quistion: decodeHtml(item.question),
             choices: shuffle([
                 decodeHtml(item.correct_answer),
                 ...item.incorrect_answers.map(ans => decodeHtml(ans))
@@ -69,13 +73,6 @@ async function loadQuizData() {
         return localQuiz;
     }
 }
-
-//  start of web
-loadQuizData().then(quizD => {
-    quiz = quizD;
-    console.log(quiz);
-    randomNum();    // start quiz only after data is ready
-});
 
 
 //play again
@@ -150,12 +147,29 @@ const checkAnswer = () => {
         alert("select answer");
     }
     if (selectedchoise.textContent === quiz[currentQuestionIndex].answer) {
-        alert("Correct Asnwer!");
-        score+=5;
+        // alert("Correct Asnwer!");
+        score += 5;
+        selectedchoise.classList.add('correct');
+        setTimeout(() => {
+            randomNum();
+        }, 1000);
+
+
     }
     else {
-        alert("Wrong Answer!");
-        score-=2;
+        // alert("Wrong Answer!");
+        score -= 2;
+        selectedchoise.classList.add('wrong');
+        for (let i = 0; i < choicesbox.childElementCount; i++) {
+            if (choicesbox.children[i].textContent === quiz[currentQuestionIndex].answer) {
+                choicesbox.children[i].classList.add('correct');
+            }
+        }
+
+        setTimeout(() => {
+            randomNum();
+        }, 1000);
+
     }
 }
 
@@ -174,26 +188,26 @@ const showScore = () => {
 
 //progress code 
 function updateProgress(current, total) {
-  let percent = (current / total) * 360; // convert to degrees
-  document.querySelector('.QNum').style.background =
-    `conic-gradient(#00c6ff ${percent}deg, #ddd ${percent}deg)`;
-  
-  document.getElementById('progressText').innerText = `${current}/${total}`;
+    let percent = (current / total) * 360; // convert to degrees
+    document.querySelector('.QNum').style.background =
+        `conic-gradient(#00c6ff ${percent}deg, #ddd ${percent}deg)`;
+
+    document.getElementById('progressText').innerText = `${current}/${total}`;
 }
 
 // call this when moving to next question
 function nextQuestion() {
-  if (currentQ < totalQ) {
-    currentQ++;
-    updateProgress(currentQ, totalQ);
-  }
+    if (currentQ < totalQ) {
+        currentQ++;
+        updateProgress(currentQ, totalQ);
+    }
 }
 
 
 
 submit.addEventListener('click', () => {
     checkAnswer();
-    randomNum();
+
 });
 
 skip.addEventListener('click', () => {
@@ -201,17 +215,25 @@ skip.addEventListener('click', () => {
         randomNum();
     }
     else {
-        skip.classList.remove('playAgain');
-        skip.textContent = "Skip";
-        playAgain();
+        setTimeout(() => {
+            skip.classList.remove('playAgain');
+            skip.textContent = "Skip";
+            playAgain();
+        }, 5000);
     }
 });
 
 start.addEventListener('click', () => {
-    welcome.style.display = "none"
-    questionbox.style.display = "block";
-    choicesbox.style.display = "block";
-    submit.style.display = "block";
-    skip.style.display = "block";
-    QNum.style.display = "flex";
+
+    loadQuizData().then(quizD => {
+        quiz = quizD;
+        // console.log(quiz);
+        randomNum();    // start quiz only after data is ready
+    });
+
+    start.textContent = "Preparing Quiz"
+    setTimeout(() => {
+        welcome.style.display = "none"
+        gameBox.style.display = "block";
+    }, 5000);
 });

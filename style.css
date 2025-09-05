@@ -5,19 +5,23 @@
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+/* ---- Body Centering ---- */
 body {
-  width: 100%;
-  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* ✅ keeps centered on all screens */
   background: linear-gradient(to right bottom, #08203e, #557c93);
   color: #fff;
-  display: grid;
-  place-items: center;
+  overflow-x: hidden;
+  padding: 10px; /* ✅ prevents edge cut-off */
 }
 
-/* Container centered */
+/* ----------- Container ----------- */
 .container {
   width: 90%;
-  max-width: 850px;
+  max-width: 80vw;
+  max-height: 85vh;
   padding: 30px;
   text-align: center;
 }
@@ -29,14 +33,18 @@ body {
   border-radius: 15px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
   max-width: 650px;
-  margin: 40px auto;
+  margin: auto;
   text-align: center;
   border: 1px solid rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(12px);
+  min-height: 60vh; /* ✅ balanced height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 #welcome h1 {
-  font-size: 2.2rem;
+  font-size: clamp(22px, 4vw, 34px); /* ✅ fluid responsive font */
   font-weight: 800;
   margin-bottom: 25px;
   display: flex;
@@ -68,7 +76,7 @@ body {
 }
 
 #welcome .emoji {
-  font-size: 2.8rem;
+  font-size: clamp(28px, 6vw, 60px); /* ✅ scales better */
   text-shadow: 0 0 12px #00c6ff, 0 0 20px #0072ff;
   animation: pulse 1.8s infinite;
 }
@@ -80,13 +88,13 @@ body {
 
 #welcome ul {
   list-style: none;
-  margin: 20px 0;
+  margin: 2vh 0;
   text-align: left;
   display: inline-block;
 }
 
 #welcome ul li {
-  font-size: 1rem;
+  font-size: clamp(14px, 2vw, 20px); /* ✅ fluid font */
   margin: 10px 0;
   color: #e0e0e0;
   position: relative;
@@ -102,8 +110,8 @@ body {
 }
 
 #welcome button {
-  margin-top: 25px;
-  padding: 14px 28px;
+  margin-top: 22px;
+  padding: 12px 26px;
   font-size: 1.1rem;
   font-weight: bold;
   border: none;
@@ -119,64 +127,86 @@ body {
   box-shadow: 0 6px 20px rgba(0, 200, 83, 0.6);
 }
 
+/* ----------- Game Area Fix ----------- */
+.gameBox {
+  background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+  padding: 70px 35px 35px 35px; /* ⬅ added extra top padding (70px) */
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  max-width: 650px;
+  margin: auto;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(12px);
+  width: 100%;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* ✅ prevents pushing question into middle */
+  position: relative;
+}
+
+
 /* ----------- Progress Circle ----------- */
 .QNum {
-  width: 90px;
-  height: 90px;
-  margin: 15px auto;
+  width: clamp(30px, 12vw, 80px); /* ✅ scales better */
+  height: clamp(30px, 12vw, 80px);
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
   background: conic-gradient(#00c6ff 0deg, #ddd 0deg);
   color: black;
-  position: relative;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.25); /* 🔹 soft shadow */
-  transition: transform 0.3s ease;         /* 🔹 smooth hover */
+  position: absolute; /* ✅ cleaner positioning */
+  top: 1px;
+  left: 1px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  transition: transform 0.3s ease;
 }
 
 .QNum:hover {
-  transform: scale(1.05); /* 🔹 gentle zoom */
+  transform: scale(1.05);
 }
 
 .QNum span {
   position: absolute;
-  font-size: 18px;
+  font-size: clamp(10px, 3vw, 18px);
   font-weight: bold;
   color: #000;
 }
 
-/* ----------- Quiz Area ----------- */
+/* ----------- Quiz Question ----------- */
 .container .question {
-  font-size: 22px;
+  font-size: clamp(16px, 3vw, 24px); /* ✅ responsive */
   font-weight: 600;
-  margin-top: 20px;
-  background: rgba(255,255,255,0.12); /* 🔹 glass look */
+  margin-top: 36px;
+  background: rgba(255,255,255,0.12);
   padding: 15px;
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.25);
-  backdrop-filter: blur(6px);          /* 🔹 modern glass effect */
+  backdrop-filter: blur(6px);
 }
 
+/* ----------- Choices ----------- */
 .choices {
-  margin-top: 20px;
+  margin-top: 16px;
 }
 
 .choice {
-  font-size: 18px;
+  font-size: clamp(14px, 2vw, 18px); /* ✅ responsive text */
   background-color: #f0f0f0;
   color: #000;
-  margin: 10px auto;
-  padding: 12px;
+  margin: 8px auto;
+  padding: 10px;
   border-radius: 8px;
   text-align: left;
-  width: 70%;
+  width: clamp(250px, 80%, 500px); /* ✅ better scaling */
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .choice:hover {
-  background-color: #e6e6e6; /* 🔹 softer hover */
+  background-color: #e6e6e6;
   transform: scale(1.02);
 }
 
@@ -188,12 +218,12 @@ body {
 
 /* ----------- Buttons ----------- */
 .btn {
-  width: 70%;
-  font-size: 18px;
+  width: clamp(200px, 70%, 400px);
+  font-size: clamp(14px, 2vw, 18px);
   font-weight: 600;
-  padding: 12px 20px;
-  margin: 20px auto 0 auto;
-  background: #006400;
+  padding: 10px 18px;
+  margin: 18px auto 0 auto;
+  background: #008000;
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -203,16 +233,16 @@ body {
 
 .btn:hover {
   background: #08780c;
-  transform: translateY(-2px); /* 🔹 lift effect */
+  transform: translateY(-2px);
   box-shadow: 0 6px 18px rgba(0,100,0,0.4);
 }
 
 .next {
-  width: 35%;
+  width: clamp(150px, 50%, 300px);
   font-size: 14px;
-  font-weight: 500;
-  padding: 12px 20px;
-  margin: 15px auto 0 auto;
+  font-weight: 600;
+  padding: 8px 14px;
+  margin: 12px auto 0 auto;
   background: #fff;
   color: #007bff;
   border: 1px solid #007bff;
@@ -224,13 +254,12 @@ body {
 .next:hover {
   background: #007bff;
   color: #fff;
-  transform: translateY(-2px); /* 🔹 consistent lift */
+  transform: translateY(-2px);
 }
 
-/* Play Again button (same style as Submit for importance) */
 .playAgain {
   width: 70%;
-  font-size: 18px;
+  font-size: clamp(14px, 2vw, 18px);
   font-weight: 600;
   background: #0072ff;
   color: #fff;
@@ -239,21 +268,43 @@ body {
 }
 
 .playAgain:hover {
-  background: #0059d6; /* 🔹 darker on hover */
+  background: #0059d6;
   transform: translateY(-2px);
   box-shadow: 0 6px 18px rgba(0,114,255,0.4);
 }
 
-/* ----------- Responsive (Mobile Friendly) ----------- */
-@media (max-width: 600px) {
-  .choice, .btn, .playAgain {
-    width: 90%;  /* 🔹 full width on small screens */
+/* ----------- Correct & Wrong Animations ----------- */
+.correct {
+  background: linear-gradient(135deg, rgba(0,200,83,0), rgba(0,150,36,0));
+  color: #fff;
+  animation: fadeGreen 0.4s forwards;
+}
+@keyframes fadeGreen {
+  to {
+    background: linear-gradient(135deg, rgba(0,200,83,0.6), rgba(0,150,36,0.6));
   }
-  .next {
-    width: 60%;
+}
+
+.wrong {
+  background: linear-gradient(135deg, rgba(244,67,54,0), rgba(183,28,28,0));
+  color: #fff;
+  animation: fadeRed 0.4s forwards;
+}
+@keyframes fadeRed {
+  to {
+    background: linear-gradient(135deg, rgba(244,67,54,0.6), rgba(183,28,28,0.6));
   }
-  .container .question {
-    font-size: 18px;
-    padding: 12px;
-  }
+}
+
+/* ----------- Responsive Tweaks ----------- */
+@media (max-width: 768px) {
+  .choice, .btn, .playAgain { width: 90%; }
+  .next { width: 60%; }
+}
+
+@media (max-width: 480px) {
+  #welcome, .gameBox { padding: 20px; }
+  .container { padding: 15px; }
+  .choice { font-size: 14px; }
+  .btn, .playAgain { font-size: 14px; padding: 10px; }
 }
