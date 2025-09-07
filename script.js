@@ -1,4 +1,5 @@
 import localQuiz from "./localQuiz.js";
+
 // const container = document.querySelector('.container');
 const questionbox = document.querySelector('.question');
 const choicesbox = document.querySelector('.choices');
@@ -9,6 +10,10 @@ const welcome = document.querySelector('#welcome');
 const start = document.querySelector('#start');
 const QNum = document.querySelector('.QNum');
 const gameBox = document.querySelector('.gameBox');
+const QinitiateTimerN = document.querySelector('#Qtimer-notice');
+const QinitiateTimerG = document.querySelector('#Qtimer-game');
+const noticeStatements = document.querySelector('#notice-statements');
+const Qtimer = document.querySelector('.timer');
 
 
 
@@ -19,12 +24,8 @@ let score = 0;
 let currentQ = 0;
 let totalQ = 10;
 
+QinitiateTimerN.style.display = "none";
 gameBox.style.display = "none";
-// questionbox.style.display = "none";
-// choicesbox.style.display = "none";
-// submit.style.display = "none";
-// skip.style.display = "none";
-// QNum.style.display = "none";
 
 // Decode HTML entities from Trivia DB API
 function decodeHtml(html) {
@@ -85,10 +86,7 @@ const playAgain = () => {
     submit.style.display = "block";
     scoreCard.textContent = "";
     QNum.style.display = "flex";
-    loadQuizData().then(quizD => {
-        quiz = quizD;   // not push!
-        randomNum();    // start quiz only after data is ready
-    });
+    randomNum(); 
 }
 
 // submit button come here 
@@ -106,14 +104,16 @@ const randomNum = () => {
     }
     else {
         showScore();
-        QNum.style.display = "none";
     }
 }
 
 //arraw function to show Questions
 const showQuestions = () => {
     // console.log("hello")
+    QinitiateTimerG.style.display = "none";
     nextQuestion();
+    timerforeachQ();
+    submit.disabled = true;
     const questionDetails = quiz[currentQuestionIndex];
     questionbox.textContent = questionDetails.quistion;
 
@@ -127,6 +127,7 @@ const showQuestions = () => {
 
         //select option
         choiceDiv.addEventListener('click', () => {
+            submit.disabled = false;
             if (choiceDiv.classList.contains('selected')) {
                 choiceDiv.classList.remove('selected');
             }
@@ -143,9 +144,6 @@ const showQuestions = () => {
 //check answer
 const checkAnswer = () => {
     const selectedchoise = document.querySelector('.choice.selected');
-    if (selectedchoise == null) {
-        alert("select answer");
-    }
     if (selectedchoise.textContent === quiz[currentQuestionIndex].answer) {
         // alert("Correct Asnwer!");
         score += 5;
@@ -178,13 +176,29 @@ const showScore = () => {
     questionbox.style.display = "none";
     choicesbox.style.display = "none";
     submit.style.display = "none";
+    QNum.style.display = "none";
+    Qtimer.style.display = "none";
+    QinitiateTimerN.style.display = "none";
     skip.textContent = "Play Again";
     skip.classList.add('playAgain');
     scoreCard.textContent = `You Scored ${score} out of 50`;
 
 }
 
-// randomNum();
+// QuizinitiateTimer
+const QuizinitiateTimer = ()=>{
+    noticeStatements.style.display = "none";
+    let QITCount = 4;
+    let interval  = setInterval(()=>{
+        QinitiateTimerN.textContent = `${QITCount}`;
+        QinitiateTimerG.textContent = `${QITCount}`;
+        QITCount--;
+        if(QITCount==0){
+            clearInterval(interval);
+        }
+    },800);
+
+}
 
 //progress code 
 function updateProgress(current, total) {
@@ -195,7 +209,7 @@ function updateProgress(current, total) {
     document.getElementById('progressText').innerText = `${current}/${total}`;
 }
 
-// call this when moving to next question
+// call this when moving to next question progress bar
 function nextQuestion() {
     if (currentQ < totalQ) {
         currentQ++;
@@ -203,7 +217,52 @@ function nextQuestion() {
     }
 }
 
+// beep for next qeustion
+function beep(duration, frequency = 440, volume = 1) {
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  
+  if (audioContext) {
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
 
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    gainNode.gain.value = volume;
+    oscillator.frequency.value = frequency;
+    oscillator.type = "sine";
+
+    oscillator.start();
+
+    // Use a timeout to stop the sound after the specified duration.
+    setTimeout(() => {
+      oscillator.stop();
+    }, duration);
+  }
+}
+
+//timer for each question
+const timerforeachQ = ()=>{
+    Qtimer.style.display = "flex";
+    let Qtimercount = 15;
+    let interval  = setInterval(()=>{
+        Qtimer.textContent = `${Qtimercount}`
+        Qtimercount--;
+        if(Qtimercount==-1){
+            clearInterval(interval);
+            if(currentQ<=totalQ){
+                beep(100);
+                skipQ();
+            }
+        }
+        skip.addEventListener('click',()=>{
+            clearInterval(interval);
+        })
+        submit.addEventListener('click',()=>{
+            clearInterval(interval);
+        })
+    },1000);
+}
 
 submit.addEventListener('click', () => {
     checkAnswer();
@@ -211,29 +270,40 @@ submit.addEventListener('click', () => {
 });
 
 skip.addEventListener('click', () => {
+    skipQ();
+});
+
+const skipQ = ()=>{
     if (skip.textContent === "Skip") {
         randomNum();
     }
     else {
+        QinitiateTimerG.style.display = "flex";
+        skip.textContent = "Preparing Quiz";
+        loadQuizData().then(quizD => {
+        quiz = quizD;   // not push!
+    });
+        QuizinitiateTimer();
         setTimeout(() => {
             skip.classList.remove('playAgain');
             skip.textContent = "Skip";
             playAgain();
-        }, 5000);
+        }, 4000);
     }
-});
+}
 
 start.addEventListener('click', () => {
 
     loadQuizData().then(quizD => {
         quiz = quizD;
-        // console.log(quiz);
-        randomNum();    // start quiz only after data is ready
     });
 
     start.textContent = "Preparing Quiz"
+    QinitiateTimerN.style.display = "flex";
+    QuizinitiateTimer();
     setTimeout(() => {
         welcome.style.display = "none"
         gameBox.style.display = "block";
-    }, 5000);
+        randomNum();
+    }, 4000);
 });

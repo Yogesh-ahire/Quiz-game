@@ -19,13 +19,14 @@
           <span class="title">Let's Play<br>a Quiz Game</span>
         </span>
       </h1>
-      <ul>
+      <ul id = "notice-statements">
         <li>There will be total 10 Questions</li>
         <li>Each Question is worth 5 points</li>
         <li>Wrong answer deducts 2 points</li>
+        <li>Each Question have 15 Seconds to Answer</li>
         <li>You can skip, but cannot reattempt that question</li>
-        <li>It takes 3 seconds to start the Quiz</li>
       </ul>
+      <div id = "Qtimer-notice" >5</div>
       <button id="start">Start Quiz</button>
     </div>
 
@@ -35,19 +36,21 @@
         <span id="progressText">1/10</span>
       </div>
 
+      <div class="timer">15</div>
+
       <!-- Question & Choices -->
       <div class="question"></div>
       <div class="choices"></div>
 
       <!-- Buttons -->
       <button class="btn nextBtn">Submit</button>
+      <div id = "Qtimer-game" >5</div>
       <button class="next">Skip</button>
 
       <!-- Score Area -->
       <div class="scoreCard"></div>
     </div>
   </div>
-  <script type="module" src="./script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
-
 </html>
