@@ -161,8 +161,8 @@ body {
 
 /* ----------- Progress Circle ----------- */
 .QNum {
-  width: clamp(30px, 12vw, 80px); /* ✅ scales better */
-  height: clamp(30px, 12vw, 80px);
+ width: clamp(30px, 12vw, 60px); /* ✅ scales better */
+  height: clamp(30px, 12vw, 60px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -170,8 +170,8 @@ body {
   background: conic-gradient(#00c6ff 0deg, #ddd 0deg);
   color: black;
   position: absolute; /* ✅ cleaner positioning */
-  top: 2px;
-  left: 2px;
+  top: 4px;
+  left: 4px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.25);
   transition: transform 0.3s ease;
 }
@@ -185,10 +185,10 @@ body {
 
 .timer{
   position: absolute;
-  top: 2px;
-  right: 2px;
-  width: clamp(30px, 12vw, 80px); /* ✅ scales better */
-  height: clamp(30px, 12vw, 80px);
+  top: 4px;
+  right: 4px;
+  width: clamp(28px, 10vw, 64px); /* ✅ scales better */
+  height: clamp(28px, 10vw, 64px);
   background-color: #08203e;
   border: 5px solid #f00;
   border-radius: 50%;
@@ -198,14 +198,26 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: pulse 1s ease-in-out infinite;
+}
 
+@keyframes pulse{
+  0%{
+    transform: scale(1);
+  }
+  50%{
+    transform: scale(1.1);
+  }
+  100%{
+    transform: scale(1);
+  }
 }
 
 /* ----------- Quiz Question ----------- */
 .container .question {
   font-size: clamp(16px, 3vw, 24px); /* ✅ responsive */
   font-weight: 600;
-  margin-top: 36px;
+  margin-top: 48px;
   background: rgba(255,255,255,0.12);
   padding: 15px;
   border-radius: 10px;
@@ -229,6 +241,19 @@ body {
   width: clamp(250px, 80%, 500px); /* ✅ better scaling */
   cursor: pointer;
   transition: all 0.2s ease;
+  transform: translateY(50%);
+  animation: fade-in 0.3s ease forwards;
+}
+
+@keyframes fade-in{
+  0%{
+    opacity: 0;
+    transform:translateY(50%);
+  }
+  100%{
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .choice:hover {
