@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Quiz - QuizApp</title>
+  <link rel="stylesheet" href="custom.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">QuizApp</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <button id="logoutBtn" class="logout-btn">Logout</button>
+    </nav>
+  </header>
+
+  <main class="custom-container">
+    <h1>🎯 Customize Your Quiz</h1>
+    <form id="customForm">
+
+      <!-- Category -->
+      <label for="category">Category:</label>
+      <select id="category" required>
+        <option value="">-- Select Category --</option>
+      </select>
+
+      <!-- Difficulty -->
+      <label for="difficulty">Difficulty:</label>
+      <select id="difficulty" required>
+        <option value="">-- Select Difficulty --</option>
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+
+      <!-- Number of Questions -->
+      <label for="amount">Number of Questions (1–50):</label>
+      <input type="number" id="amount" min="1" max="50" value="10" required>
+
+      <!-- Timer -->
+      <label for="timerToggle">
+        <input type="checkbox" id="timerToggle"> Enable Timer
+      </label>
+
+      <div id="timerOptions" style="display: none;">
+        <label for="timer">Select Timer (seconds):</label>
+        <input type="range" id="timer" min="15" max="120" step="15" value="60">
+        <span id="timerValue">60s</span>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="start-btn">Start Quiz</button>
+    </form>
+  </main>
+
+  <script src="custom.js"></script>
+</body>
+</html>

@@ -1,56 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz app using JS</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Quiz App - Home</title>
+  <link rel="stylesheet" href="home.css">
 </head>
-
 <body>
-  <div class="container">
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo">QuizApp</div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Categories</a>
+      <a href="#">Leaderboard</a>
+      <!-- Logout button -->
+      <button id="logoutBtn" class="logout-btn">Logout</button>
+    </nav>
+  </header>
 
-    <!-- Welcome / Rules Section -->
-    <div id="welcome">
-      <h1>
-        <span class="emoji">🎯</span>
-        <span class="title-wrapper">
-          <span class="title">Let's Play<br>a Quiz Game</span>
-        </span>
-      </h1>
-      <ul id = "notice-statements">
-        <li>There will be total 10 Questions</li>
-        <li>Each Question is worth 5 points</li>
-        <li>Wrong answer deducts 2 points</li>
-        <li>Each Question have 15 Seconds to Answer</li>
-        <li>You can skip, but cannot reattempt that question</li>
-      </ul>
-      <div id = "Qtimer-notice" >5</div>
-      <button id="start">Start Quiz</button>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1 id="welcomeText"></h1>
+      <p>Play today and test your knowledge in fun categories!</p>
+      <button class="cta-btn">History</button>
     </div>
+    <div class="hero-img">
+      <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Trophy">
+    </div>
+  </section>
 
-    <!-- Progress Circle -->
-    <div class="gameBox">
-      <div class="QNum">
-        <span id="progressText">1/10</span>
+  <!-- Quick Action Cards -->
+  <section class="quick-actions">
+    <a href="quiz.html"><div class="card">🎯 Quick Play Quiz</div></a>
+    <a href="custom.html"><div class="card">📊 Customise Quiz</div></a>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <h2>Play, Learn and Earn Bonus</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>🧠 Test Your IQ</h3>
+        <p>Challenge your brain with logic quizzes.</p>
       </div>
-
-      <div class="timer">15</div>
-
-      <!-- Question & Choices -->
-      <div class="question"></div>
-      <div class="choices"></div>
-
-      <!-- Buttons -->
-      <button class="btn nextBtn">Submit</button>
-      <div id = "Qtimer-game" >5</div>
-      <button class="next">Skip</button>
-
-      <!-- Score Area -->
-      <div class="scoreCard"></div>
+      <div class="feature-card">
+        <h3>📚 Learn & Earn</h3>
+        <p>Answer and unlock achievements daily.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🎮 Fun Challenges</h3>
+        <p>Compete with friends and earn rewards.</p>
+      </div>
     </div>
-  </div>
-  <script type="module" src="./script.js"></script>
+  </section>
+
+  <script src="home.js"></script>
 </body>
 </html>

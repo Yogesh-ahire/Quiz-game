@@ -1,40 +1,48 @@
-import localQuiz from "./localQuiz.js";
-
-// const container = document.querySelector('.container');
-const questionbox = document.querySelector('.question');
-const choicesbox = document.querySelector('.choices');
-const submit = document.querySelector('.nextBtn');
-const skip = document.querySelector('.next');
+// ================= DOM ELEMENTS =================
+const questionBox = document.querySelector('.question');
+const choicesBox = document.querySelector('.choices');
+const submitBtn = document.querySelector('.nextBtn'); // Submit button
+const skipBtn = document.querySelector('.next');      // Skip/Next button
 const scoreCard = document.querySelector('.scoreCard');
-const welcome = document.querySelector('#welcome');
-const start = document.querySelector('#start');
-const QNum = document.querySelector('.QNum');
+const welcomeScreen = document.querySelector('#welcome');
+const startBtn = document.querySelector('#start');
+const progressCircle = document.querySelector('.QNum');
 const gameBox = document.querySelector('.gameBox');
-const QinitiateTimerN = document.querySelector('#Qtimer-notice');
-const QinitiateTimerG = document.querySelector('#Qtimer-game');
-const noticeStatements = document.querySelector('#notice-statements');
-const Qtimer = document.querySelector('.timer');
+const noticeTimer = document.querySelector('#Qtimer-notice');
+const gameTimer = document.querySelector('#Qtimer-game');
+const noticeBoard = document.querySelector('#notice-statements');
+const questionTimer = document.querySelector('.timer');
 
-
-
+// ================= GAME VARIABLES =================
 let quiz = [];
 let currentQuestionIndex;
-let num = [];
+let usedQuestions = [];
 let score = 0;
 let currentQ = 0;
-let totalQ = 10;
 
-QinitiateTimerN.style.display = "none";
+// Default Quiz Configuration
+let quizConfig = JSON.parse(localStorage.getItem("customQuiz")) || {
+    category: 9,
+    difficulty: "easy",
+    amount: 10,
+    timer: 15,
+    apiUrl: `https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple`
+};
+
+// Hide game area and timers initially
+noticeTimer.style.display = "none";
 gameBox.style.display = "none";
 
-// Decode HTML entities from Trivia DB API
+// ================= UTILITY FUNCTIONS =================
+
+// Decode HTML entities
 function decodeHtml(html) {
     const txt = document.createElement("textarea");
     txt.innerHTML = html;
     return txt.value;
 }
 
-// Shuffle array (Fisher–Yates shuffle is more reliable than sort)
+// Shuffle array
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -43,267 +51,279 @@ function shuffle(array) {
     return array;
 }
 
-// Transform API data into your quiz format
+// Transform API response
 function transformData(apiData) {
-    return apiData.results.map(item => {
-        return {
-            quistion: decodeHtml(item.question),
-            choices: shuffle([
-                decodeHtml(item.correct_answer),
-                ...item.incorrect_answers.map(ans => decodeHtml(ans))
-            ]),
-            answer: decodeHtml(item.correct_answer)
-        };
-    });
+    return apiData.results.map(item => ({
+        question: decodeHtml(item.question),
+        choices: shuffle([decodeHtml(item.correct_answer), ...item.incorrect_answers.map(ans => decodeHtml(ans))]),
+        answer: decodeHtml(item.correct_answer)
+    }));
 }
 
-
-// fetch from Trivia DB with fallback
+// ================= LOAD QUIZ DATA =================
 async function loadQuizData() {
     try {
-        const res = await fetch('https://opentdb.com/api.php?amount=10&category=18&type=multiple');
+        const res = await fetch(quizConfig.apiUrl);
         const data = await res.json();
 
         if (data.response_code === 0 && data.results.length > 0) {
-            // transform API data to your format
             return transformData(data);
         } else {
-            return localQuiz;
+            alert("Failed to fetch quiz. Please try again.");
+            return [];
         }
     } catch (error) {
-        return localQuiz;
+        alert("Error fetching quiz. Check your internet connection.");
+        return [];
     }
 }
 
+// ================= NOTICE BOARD =================
+function updateNoticeBoard() {
+    const categories = [
+        { id: 9, name: "General Knowledge" }, { id: 10, name: "Entertainment: Books" },
+        { id: 11, name: "Entertainment: Film" }, { id: 12, name: "Entertainment: Music" },
+        { id: 13, name: "Musicals & Theatres" }, { id: 14, name: "Television" },
+        { id: 15, name: "Video Games" }, { id: 16, name: "Board Games" },
+        { id: 17, name: "Science & Nature" }, { id: 18, name: "Computers" },
+        { id: 19, name: "Mathematics" }, { id: 20, name: "Mythology" },
+        { id: 21, name: "Sports" }, { id: 22, name: "Geography" },
+        { id: 23, name: "History" }, { id: 24, name: "Politics" },
+        { id: 25, name: "Art" }, { id: 26, name: "Celebrities" },
+        { id: 27, name: "Animals" }, { id: 28, name: "Vehicles" },
+        { id: 29, name: "Comics" }, { id: 30, name: "Gadgets" },
+        { id: 31, name: "Anime & Manga" }, { id: 32, name: "Cartoon & Animations" }
+    ];
 
-//play again
-const playAgain = () => {
-    num = [];
-    score = 0;
-    currentQ = 0;
-    questionbox.style.display = "block";
-    choicesbox.style.display = "block";
-    submit.style.display = "block";
-    scoreCard.textContent = "";
-    QNum.style.display = "flex";
-    randomNum(); 
+    const categoryName = categories.find(c => c.id == quizConfig.category)?.name || "General Knowledge";
+
+    // Update notice board
+    noticeBoard.querySelector("ul").innerHTML = `
+        <li>${categoryName} - ${quizConfig.difficulty} level</li>
+        <li>Total Questions: ${quizConfig.amount}</li>
+        <li>Points per Question: 5</li>
+        <li>Time per Question: ${quizConfig.timer} seconds</li>
+    `;
+
+    noticeBoard.style.display = "block";
 }
 
-// submit button come here 
-const randomNum = () => {
-    const randIdx = Math.floor(Math.random() * 10);
-    currentQuestionIndex = randIdx;
-    if (num.length < 10) {
-        if (num.includes(currentQuestionIndex)) {
-            randomNum();
+// ================= QUESTION TIMER =================
+
+
+function startQuestionTimer() {
+    questionTimer.style.display = "flex";
+    let timeLeft = quizConfig.timer;
+
+    const interval = setInterval(() => {
+        questionTimer.textContent = timeLeft;
+        timeLeft--;
+
+        if (timeLeft < 0) {
+            clearInterval(interval);
+            skipQuestion();
         }
+    }, 1000);
+
+    // Clear interval on click
+    submitBtn.addEventListener('click', () => clearInterval(interval));
+    skipBtn.addEventListener('click', () => clearInterval(interval));
+}
+
+
+// ================= DISPLAY QUESTIONS =================
+function showQuestion() {
+    gameTimer.style.display = "none";
+    questionTimer.style.display = "none";
+    nextQuestion();
+    if (quizConfig.timer) {
+        startQuestionTimer();
+    }
+    submitBtn.disabled = true;
+
+    const q = quiz[currentQuestionIndex];
+    questionBox.textContent = q.question;
+
+    // Render choices
+    choicesBox.innerHTML = "";
+    q.choices.forEach(choice => {
+        const div = document.createElement('div');
+        div.textContent = choice;
+        div.classList.add('choice');
+        choicesBox.appendChild(div);
+
+        // Selection logic
+        div.addEventListener('click', () => {
+            submitBtn.disabled = false;
+            choicesBox.querySelectorAll('.choice').forEach(c => c.classList.remove('selected'));
+            div.classList.add('selected');
+        });
+    });
+}
+
+// ================= RANDOM QUESTION PICKER =================
+function pickRandomQuestion() {
+    const idx = Math.floor(Math.random() * quizConfig.amount);
+    currentQuestionIndex = idx;
+
+    if (usedQuestions.length < quizConfig.amount) {
+        if (usedQuestions.includes(currentQuestionIndex)) pickRandomQuestion();
         else {
-            showQuestions();
-            num.push(currentQuestionIndex);
+            showQuestion();
+            usedQuestions.push(currentQuestionIndex);
         }
-    }
-    else {
+    } else {
         showScore();
     }
 }
 
-//arraw function to show Questions
-const showQuestions = () => {
-    // console.log("hello")
-    QinitiateTimerG.style.display = "none";
-    nextQuestion();
-    timerforeachQ();
-    submit.disabled = true;
-    const questionDetails = quiz[currentQuestionIndex];
-    questionbox.textContent = questionDetails.quistion;
+// ================= CHECK ANSWER =================
+function checkAnswer() {
+    const selected = document.querySelector('.choice.selected');
+    if (!selected) return;
 
-    choicesbox.textContent = "";
-    for (let i = 0; i < questionDetails.choices.length; i++) {
-        const currentChoice = questionDetails.choices[i];
-        const choiceDiv = document.createElement('div');
-        choiceDiv.textContent = currentChoice;
-        choiceDiv.classList.add('choice')
-        choicesbox.appendChild(choiceDiv);
+    if (selected.textContent === quiz[currentQuestionIndex].answer) {
+        score += 5;
+        selected.classList.add('correct');
+    } else {
+        selected.classList.add('wrong');
+        // Highlight correct choice
+        choicesBox.querySelectorAll('.choice').forEach(c => {
+            if (c.textContent === quiz[currentQuestionIndex].answer) c.classList.add('correct');
+        });
+    }
 
-        //select option
-        choiceDiv.addEventListener('click', () => {
-            submit.disabled = false;
-            if (choiceDiv.classList.contains('selected')) {
-                choiceDiv.classList.remove('selected');
-            }
-            else {
-                for (let i = 0; i < choicesbox.childElementCount; i++) {
-                    choicesbox.children[i].classList.remove('selected');
-                }
-                choiceDiv.classList.add('selected');
-            }
+    setTimeout(() => pickRandomQuestion(), 1000);
+}
+
+// ================= SKIP QUESTION =================
+function skipQuestion() {
+    if (skipBtn.textContent === "Skip") pickRandomQuestion();
+    else {
+        gameTimer.style.display = "flex";
+        skipBtn.textContent = "Preparing Quiz";
+        loadQuizData().then(q => {
+            quiz = q;
+            startCountdown();
+            setTimeout(() => {
+                skipBtn.textContent = "Skip";
+                playAgain();
+            }, 5100);
         });
     }
 }
 
-//check answer
-const checkAnswer = () => {
-    const selectedchoise = document.querySelector('.choice.selected');
-    if (selectedchoise.textContent === quiz[currentQuestionIndex].answer) {
-        // alert("Correct Asnwer!");
-        score += 5;
-        selectedchoise.classList.add('correct');
-        setTimeout(() => {
-            randomNum();
-        }, 1000);
+// ================= PLAY AGAIN =================
+function playAgain() {
+    usedQuestions = [];
+    score = 0;
+    currentQ = 0;
 
+    questionBox.style.display = "block";
+    choicesBox.style.display = "block";
+    submitBtn.style.display = "block";
+    scoreCard.innerHTML = "";
+    progressCircle.style.display = "flex";
 
-    }
-    else {
-        // alert("Wrong Answer!");
-        score -= 2;
-        selectedchoise.classList.add('wrong');
-        for (let i = 0; i < choicesbox.childElementCount; i++) {
-            if (choicesbox.children[i].textContent === quiz[currentQuestionIndex].answer) {
-                choicesbox.children[i].classList.add('correct');
-            }
-        }
-
-        setTimeout(() => {
-            randomNum();
-        }, 1000);
-
-    }
+    pickRandomQuestion();
 }
 
-//show score 
-const showScore = () => {
-    questionbox.style.display = "none";
-    choicesbox.style.display = "none";
-    submit.style.display = "none";
-    QNum.style.display = "none";
-    Qtimer.style.display = "none";
-    QinitiateTimerN.style.display = "none";
-    skip.textContent = "Play Again";
-    skip.classList.add('playAgain');
-    scoreCard.textContent = `You Scored ${score} out of 50`;
+// ================= SHOW SCORE =================
+function showScore() {
+    questionBox.style.display = "none";
+    choicesBox.style.display = "none";
+    submitBtn.style.display = "none";
+    progressCircle.style.display = "none";
+    questionTimer.style.display = "none";
+    noticeTimer.style.display = "none";
 
-}
+    skipBtn.textContent = "Play Again";
+    skipBtn.classList.add('playAgain');
 
-// QuizinitiateTimer
-const QuizinitiateTimer = ()=>{
-    noticeStatements.style.display = "none";
-    let QITCount = 4;
-    let interval  = setInterval(()=>{
-        QinitiateTimerN.textContent = `${QITCount}`;
-        QinitiateTimerG.textContent = `${QITCount}`;
-        QITCount--;
-        if(QITCount==0){
+    let percentage = Math.round((score /(quizConfig.amount * 5)) * 100);
+
+    // Determine circle color class
+    let circleClass = percentage >= 70 ? 'high' : percentage >= 40 ? 'mid' : 'low';
+
+    scoreCard.innerHTML = `
+        <div class="score-card">
+            <h2 class="score-title">🎯 Quiz Results</h2>
+            <div class="circle ${circleClass}">
+                <div class="inside-circle">0%</div>
+            </div>
+            <p class="score-text">You Scored <b>${score}</b> out of ${quizConfig.amount * 5}</p>
+            <p class="score-text">${percentage >= 70 ? "🔥 Excellent job!" : percentage >= 40 ? "👍 Good effort!" : "😢 Keep practicing!"}</p>
+            <a href= "index.html"><button id="getback">Home</button></a>
+        </div>
+    `;
+
+    // Animate the circle
+    const circle = scoreCard.querySelector('.circle');
+    const insideCircle = circle.querySelector('.inside-circle');
+    let progress = 0;
+    const interval = setInterval(() => {
+        if (progress >= percentage) {
             clearInterval(interval);
+        } else {
+            progress++;
+            circle.style.setProperty('--progress', progress);
+            insideCircle.textContent = `${progress}%`;
         }
-    },800);
-
+    }, 15); // Adjust speed
 }
 
-//progress code 
-function updateProgress(current, total) {
-    let percent = (current / total) * 360; // convert to degrees
-    document.querySelector('.QNum').style.background =
-        `conic-gradient(#00c6ff ${percent}deg, #ddd ${percent}deg)`;
 
+// ================= PROGRESS BAR =================
+function updateProgress(current, total) {
+    const percent = (current / total) * 360;
+    progressCircle.style.background = `conic-gradient(#00c6ff ${percent}deg, #ddd ${percent}deg)`;
     document.getElementById('progressText').innerText = `${current}/${total}`;
 }
 
-// call this when moving to next question progress bar
 function nextQuestion() {
-    if (currentQ < totalQ) {
-        currentQ++;
-        updateProgress(currentQ, totalQ);
-    }
+    if (currentQ < quizConfig.amount) currentQ++;
+    updateProgress(currentQ, quizConfig.amount);
 }
 
-// beep for next qeustion
-function beep(duration, frequency = 440, volume = 1) {
-  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  
-  if (audioContext) {
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
+// ================= COUNTDOWN BEFORE QUIZ =================
+function startCountdown() {
+    noticeBoard.style.display = "none";
+    noticeTimer.style.display = "flex";
+    gameTimer.style.display = "flex";
+    let count = 4;
 
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-
-    gainNode.gain.value = volume;
-    oscillator.frequency.value = frequency;
-    oscillator.type = "sine";
-
-    oscillator.start();
-
-    // Use a timeout to stop the sound after the specified duration.
-    setTimeout(() => {
-      oscillator.stop();
-    }, duration);
-  }
-}
-
-//timer for each question
-const timerforeachQ = ()=>{
-    Qtimer.style.display = "flex";
-    let Qtimercount = 15;
-    let interval  = setInterval(()=>{
-        Qtimer.textContent = `${Qtimercount}`
-        Qtimercount--;
-        if(Qtimercount==-1){
+    const interval = setInterval(() => {
+        noticeTimer.textContent = count;
+        gameTimer.textContent = count;
+        count--;
+        if (count < 0) {
+            noticeTimer.textContent = 5;
+            gameTimer.textContent = 5;
             clearInterval(interval);
-            if(currentQ<=totalQ){
-                beep(100);
-                skipQ();
-            }
         }
-        skip.addEventListener('click',()=>{
-            clearInterval(interval);
-        })
-        submit.addEventListener('click',()=>{
-            clearInterval(interval);
-        })
-    },1000);
+    }, 980);
 }
 
-submit.addEventListener('click', () => {
-    checkAnswer();
-
-});
-
-skip.addEventListener('click', () => {
-    skipQ();
-});
-
-const skipQ = ()=>{
-    if (skip.textContent === "Skip") {
-        randomNum();
-    }
-    else {
-        QinitiateTimerG.style.display = "flex";
-        skip.textContent = "Preparing Quiz";
-        loadQuizData().then(quizD => {
-        quiz = quizD;   // not push!
-    });
-        QuizinitiateTimer();
-        setTimeout(() => {
-            skip.classList.remove('playAgain');
-            skip.textContent = "Skip";
-            playAgain();
-        }, 4000);
-    }
+// ================= START QUIZ =================
+function startQuiz() {
+    welcomeScreen.style.display = "none";
+    gameBox.style.display = "block";
+    questionTimer.textContent = quizConfig.timer;
+    pickRandomQuestion();
 }
 
-start.addEventListener('click', () => {
+// ================= EVENT LISTENERS =================
+updateNoticeBoard();
 
-    loadQuizData().then(quizD => {
-        quiz = quizD;
+startBtn.addEventListener('click', () => {
+    startBtn.textContent = "Preparing Quiz";
+    startBtn.disabled = true;
+    loadQuizData().then(q => {
+        quiz = q;
     });
-
-    start.textContent = "Preparing Quiz"
-    QinitiateTimerN.style.display = "flex";
-    QuizinitiateTimer();
-    setTimeout(() => {
-        welcome.style.display = "none"
-        gameBox.style.display = "block";
-        randomNum();
-    }, 4000);
+    startCountdown();
+    setTimeout(() => startQuiz(), 5100);
 });
+
+submitBtn.addEventListener('click', checkAnswer);
+skipBtn.addEventListener('click', skipQuestion);

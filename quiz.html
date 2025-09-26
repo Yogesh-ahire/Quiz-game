@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz app using JS</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <video autoplay muted loop playsinline class="bg-video">
+    <source src="animate.mp4" type="video/mp4">
+  </video>
+
+  <div class="container">
+
+    <!-- Welcome / Rules Section -->
+    <div id="welcome">
+      <h1>
+        <span class="emoji">🎯</span>
+        <span class="title-wrapper">
+          <span class="title">Let's Play<br>a Quiz Game</span>
+        </span>
+      </h1>
+      <div id="notice-statements">
+        <h3>Notice Board</h3>
+        <ul></ul> <!-- Will be filled dynamically -->
+      </div>
+      <div id="Qtimer-notice">5</div>
+      <button id="start">Start Quiz</button>
+      <a href="index.html"><button id="getback">Home</button></a>
+    </div>
+
+    <!-- Progress Circle / Quiz Area -->
+    <div class="gameBox">
+      <div class="QNum">
+        <span id="progressText">1/10</span>
+      </div>
+
+      <div class="timer"></div>
+
+      <!-- Question & Choices -->
+      <div class="question"></div>
+      <div class="choices"></div>
+
+      <!-- Buttons -->
+      <button class="btn nextBtn">Submit</button>
+      <div id="Qtimer-game">5</div>
+      <button class="next">Skip</button>
+
+      <!-- Score Area -->
+      <div class="scoreCard"></div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

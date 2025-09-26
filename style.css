@@ -1,3 +1,4 @@
+/* ================= BASE STYLES ================= */
 * {
   margin: 0;
   padding: 0;
@@ -5,19 +6,28 @@
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-/* ---- Body Centering ---- */
 body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; /* ✅ keeps centered on all screens */
+  min-height: 100vh;
   background: linear-gradient(to right bottom, #08203e, #557c93);
   color: #fff;
   overflow-x: hidden;
-  padding: 10px; /* ✅ prevents edge cut-off */
+  padding: 10px;
 }
 
-/* ----------- Container ----------- */
+.bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* covers entire screen without distortion */
+  z-index: -1; /* keeps video behind other content */
+  filter: brightness(0.5); /* optional: darken for better text visibility */
+}
+
 .container {
   width: 90%;
   max-width: 80vw;
@@ -26,9 +36,9 @@ body {
   text-align: center;
 }
 
-/* ----------- Welcome Card ----------- */
+/* ================= WELCOME CARD ================= */
 #welcome {
-  background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
   padding: 35px;
   border-radius: 15px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
@@ -37,14 +47,14 @@ body {
   text-align: center;
   border: 1px solid rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(12px);
-  min-height: 60vh; /* ✅ balanced height */
+  min-height: 60vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
 #welcome h1 {
-  font-size: clamp(22px, 4vw, 34px); /* ✅ fluid responsive font */
+  font-size: clamp(22px, 4vw, 34px);
   font-weight: 800;
   margin-bottom: 25px;
   display: flex;
@@ -71,19 +81,33 @@ body {
 }
 
 @keyframes glow {
-  from { text-shadow: 0 0 6px #0072ff; }
-  to   { text-shadow: 0 0 20px #00c6ff; }
+  from {
+    text-shadow: 0 0 6px #0072ff;
+  }
+
+  to {
+    text-shadow: 0 0 20px #00c6ff;
+  }
 }
 
 #welcome .emoji {
-  font-size: clamp(28px, 6vw, 60px); /* ✅ scales better */
+  font-size: clamp(28px, 6vw, 60px);
   text-shadow: 0 0 12px #00c6ff, 0 0 20px #0072ff;
   animation: pulse 1.8s infinite;
 }
 
 @keyframes pulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50%      { transform: scale(1.15); opacity: 0.85; }
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.15);
+    opacity: 0.85;
+  }
 }
 
 #welcome ul {
@@ -94,7 +118,7 @@ body {
 }
 
 #welcome ul li {
-  font-size: clamp(14px, 2vw, 20px); /* ✅ fluid font */
+  font-size: clamp(14px, 2vw, 20px);
   margin: 10px 0;
   color: #e0e0e0;
   position: relative;
@@ -109,9 +133,11 @@ body {
   left: 0;
 }
 
-#Qtimer-notice, #Qtimer-game{
+#Qtimer-notice,
+#Qtimer-game {
   margin: 2vh auto;
-  height: 20vh;
+  height:
+    20vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -121,8 +147,8 @@ body {
   color: #fffefeaa;
 }
 
-#welcome button {
-  margin-top: 22px;
+#welcome #start {
+  margin: 22px;
   padding: 12px 26px;
   font-size: 1.1rem;
   font-weight: bold;
@@ -134,15 +160,15 @@ body {
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-#welcome button:hover {
+#welcome #start:hover {
   transform: scale(1.08);
   box-shadow: 0 6px 20px rgba(0, 200, 83, 0.6);
 }
 
-/* ----------- Game Area Fix ----------- */
+/* ================= GAME AREA ================= */
 .gameBox {
-  background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-  padding: 70px 35px 35px 35px; /* ⬅ added extra top padding (70px) */
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  padding: 70px 35px 35px;
   border-radius: 15px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
   max-width: 650px;
@@ -150,18 +176,15 @@ body {
   text-align: center;
   border: 1px solid rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(12px);
-  width: 100%;
   min-height: 60vh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* ✅ prevents pushing question into middle */
+  justify-content: flex-start;
   position: relative;
 }
 
-
-/* ----------- Progress Circle ----------- */
 .QNum {
- width: clamp(30px, 12vw, 60px); /* ✅ scales better */
+  width: clamp(30px, 12vw, 60px);
   height: clamp(30px, 12vw, 60px);
   display: flex;
   justify-content: center;
@@ -169,10 +192,10 @@ body {
   border-radius: 50%;
   background: conic-gradient(#00c6ff 0deg, #ddd 0deg);
   color: black;
-  position: absolute; /* ✅ cleaner positioning */
+  position: absolute;
   top: 4px;
   left: 4px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
   transition: transform 0.3s ease;
 }
 
@@ -183,11 +206,11 @@ body {
   color: #000;
 }
 
-.timer{
+.timer {
   position: absolute;
   top: 4px;
   right: 4px;
-  width: clamp(28px, 10vw, 64px); /* ✅ scales better */
+  width: clamp(28px, 10vw, 64px);
   height: clamp(28px, 10vw, 64px);
   background-color: #08203e;
   border: 5px solid #f00;
@@ -201,59 +224,33 @@ body {
   animation: pulse 1s ease-in-out infinite;
 }
 
-@keyframes pulse{
-  0%{
-    transform: scale(1);
-  }
-  50%{
-    transform: scale(1.1);
-  }
-  100%{
-    transform: scale(1);
-  }
-}
-
-/* ----------- Quiz Question ----------- */
+/* ================= QUESTIONS & CHOICES ================= */
 .container .question {
-  font-size: clamp(16px, 3vw, 24px); /* ✅ responsive */
+  font-size: clamp(16px, 3vw, 24px);
   font-weight: 600;
   margin-top: 48px;
-  background: rgba(255,255,255,0.12);
+  background: rgba(255, 255, 255, 0.12);
   padding: 15px;
   border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(6px);
 }
 
-/* ----------- Choices ----------- */
 .choices {
   margin-top: 16px;
 }
 
 .choice {
-  font-size: clamp(14px, 2vw, 18px); /* ✅ responsive text */
+  font-size: clamp(14px, 2vw, 18px);
   background-color: #f0f0f0;
   color: #000;
   margin: 8px auto;
   padding: 10px;
   border-radius: 8px;
   text-align: left;
-  width: clamp(250px, 80%, 500px); /* ✅ better scaling */
+  width: clamp(250px, 80%, 500px);
   cursor: pointer;
   transition: all 0.2s ease;
-  transform: translateY(50%);
-  animation: fade-in 0.3s ease forwards;
-}
-
-@keyframes fade-in{
-  0%{
-    opacity: 0;
-    transform:translateY(50%);
-  }
-  100%{
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .choice:hover {
@@ -264,42 +261,42 @@ body {
 .choice.selected {
   background-color: #007bff;
   color: #fff;
-  box-shadow: 0 4px 12px rgba(0,123,255,0.5);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.5);
 }
 
-/* ----------- Buttons ----------- */
-.btn {
-  width: clamp(200px, 70%, 400px);
-  font-size: clamp(14px, 2vw, 18px);
+/* ================= BUTTONS ================= */
+.btn,
+.next,
+.playAgain {
   font-weight: 600;
-  padding: 10px 18px;
-  margin: 18px auto 0 auto;
-  background: #008000;
-  color: #fff;
-  border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
+}
+
+.btn {
+  width: clamp(200px, 70%, 400px);
+  font-size: clamp(14px, 2vw, 18px);
+  padding: 10px 18px;
+  margin: 18px auto 0;
+  background: #008000;
+  color: #fff;
+  border: none;
 }
 
 .btn:hover {
   background: #08780c;
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0,100,0,0.4);
 }
 
 .next {
   width: clamp(150px, 50%, 300px);
   font-size: 14px;
-  font-weight: 600;
   padding: 8px 14px;
-  margin: 12px auto 0 auto;
+  margin: 12px auto 0;
   background: #fff;
   color: #007bff;
   border: 1px solid #007bff;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
 }
 
 .next:hover {
@@ -311,51 +308,162 @@ body {
 .playAgain {
   width: 70%;
   font-size: clamp(14px, 2vw, 18px);
-  font-weight: 600;
   background: #0072ff;
   color: #fff;
-  border-radius: 8px;
-  transition: all 0.3s ease;
 }
 
 .playAgain:hover {
   background: #0059d6;
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0,114,255,0.4);
 }
 
-/* ----------- Correct & Wrong Animations ----------- */
+/* ================= CORRECT/WRONG ================= */
 .correct {
-  background: linear-gradient(135deg, rgba(0,200,83,0), rgba(0,150,36,0));
-  color: #fff;
   animation: fadeGreen 0.4s forwards;
 }
+
 @keyframes fadeGreen {
   to {
-    background: linear-gradient(135deg, rgba(0,200,83,0.6), rgba(0,150,36,0.6));
+    background: linear-gradient(135deg, rgba(0, 200, 83, 0.6), rgba(0, 150, 36, 0.6));
   }
 }
 
 .wrong {
-  background: linear-gradient(135deg, rgba(244,67,54,0), rgba(183,28,28,0));
-  color: #fff;
   animation: fadeRed 0.4s forwards;
 }
+
 @keyframes fadeRed {
   to {
-    background: linear-gradient(135deg, rgba(244,67,54,0.6), rgba(183,28,28,0.6));
+    background: linear-gradient(135deg, rgba(244, 67, 54, 0.6), rgba(183, 28, 28, 0.6));
   }
 }
 
-/* ----------- Responsive Tweaks ----------- */
+/* ================= RESULT SECTION ================= */
+.score-card {
+  margin-top: 30px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 40px 30px;
+  border-radius: 20px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+.score-title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+}
+
+.circle {
+  --progress: 0;
+  position: relative;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: conic-gradient(var(--color, #ff4d6d) calc(var(--progress) * 1%), rgba(255, 255, 255, 0.1) 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 30px rgba(255, 77, 109, 0.5);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.circle.low {
+  --color: #ff4d6d;
+  box-shadow: 0 0 25px rgba(255, 77, 109, 0.7);
+}
+
+.circle.mid {
+  --color: #ffb300;
+  box-shadow: 0 0 25px rgba(255, 179, 0, 0.7);
+}
+
+.circle.high {
+  --color: #00c853;
+  box-shadow: 0 0 25px rgba(0, 200, 83, 0.7);
+}
+
+.inside-circle {
+  position: absolute;
+  font-size: 30px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+}
+
+.score-text {
+  font-size: 20px;
+  font-weight: 500;
+  color: #ddd;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
-  .choice, .btn, .playAgain { width: 90%; }
-  .next { width: 60%; }
+
+  .choice,
+  .btn,
+  .playAgain {
+    width: 90%;
+  }
+
+  .next {
+    width: 60%;
+  }
 }
 
 @media (max-width: 480px) {
-  #welcome, .gameBox { padding: 20px; }
-  .container { padding: 15px; }
-  .choice { font-size: 14px; }
-  .btn, .playAgain { font-size: 14px; padding: 10px; }
+
+  #welcome,
+  .gameBox {
+    padding: 20px;
+  }
+
+  .container {
+    padding: 15px;
+  }
+
+  .choice {
+    font-size: 14px;
+  }
+
+  .btn,
+  .playAgain {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+/* ================= GET BACK BUTTON ================= */
+#getback {
+  padding: 12px 25px;
+  background: #ff9f43;
+  color: #fff;
+  font-size: 1rem;
+  margin: auto;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#getback:hover {
+  background: #ff6f00;
 }
