@@ -7,7 +7,7 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background: #f9f9f9;
+  background: #fffdfd;
   color: #333;
   line-height: 1.6;
 }
@@ -18,16 +18,30 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 15px 40px;
-  background: #292198;
-  color: #fff;
-  position: sticky;
-  top: 0;
-  z-index: 10;
+background: #a4c9d2;
+position: sticky;
+top: 0;
+left: 0;
+  color: #000000;
 }
 
 .navbar .logo {
-  font-size: 1.5rem;
-  font-weight: bold;
+  width: auto;   /* let the content decide */
+  height: auto;
+  display: flex;
+}
+
+
+
+.navbar .logo img {
+  width: 40px;   /* set a proper size */
+  height: auto;  /* keeps aspect ratio */
+}
+
+.navbar .logo div{
+  font-size: 30px;
+  font-weight: 600;
+
 }
 
 .navbar nav {
@@ -36,7 +50,7 @@ body {
 
 .navbar nav div{
   margin-left: 20px;
-  color: #fff;
+  color: #000000;
   text-decoration: none;
   padding: 5px;
   border-radius: 5px;
@@ -44,23 +58,18 @@ body {
 }
 
 .navbar nav div:hover {
-  background-color: #807e9c;
+  background-color: #453f98ab;
+  color: #fff;
 }
 
 .logout-btn {
   margin-left: 20px;
-  padding: 8px 16px;
+  padding: 2px 14px;
   border: none;
   border-radius: 6px;
   background: #e74c3c;
   color: #fff;
-  font-size: 0.9rem;
   cursor: pointer;
-  transition: 0.3s;
-}
-
-.logout-btn:hover {
-  background: #c0392b;
 }
 
 
