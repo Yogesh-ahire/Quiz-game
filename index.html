@@ -11,9 +11,8 @@
   <header class="navbar">
     <div class="logo">QuizApp</div>
     <nav>
-      <a href="#">Home</a>
-      <a href="#">Categories</a>
-      <a href="#">Leaderboard</a>
+      <div  onclick="window.location.href='categories.html'">Categories</div>
+      <div  onclick="window.location.href='leaderboard.html'">Leaderboard</div>
       <!-- Logout button -->
       <button id="logoutBtn" class="logout-btn">Logout</button>
     </nav>
@@ -24,7 +23,7 @@
     <div class="hero-text">
       <h1 id="welcomeText"></h1>
       <p>Play today and test your knowledge in fun categories!</p>
-      <button class="cta-btn">History</button>
+      <button class="cta-btn" onclick="window.location.href='history.html'" >History</button>
     </div>
     <div class="hero-img">
       <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Trophy">
@@ -33,8 +32,8 @@
 
   <!-- Quick Action Cards -->
   <section class="quick-actions">
-    <a href="quiz.html"><div class="card">🎯 Quick Play Quiz</div></a>
-    <a href="custom.html"><div class="card">📊 Customise Quiz</div></a>
+    <a href="quiz.html" target="_self"><div class="card">🎯 Quick Play Quiz</div></a>
+    <a href="custom.html" target="_self"><div class="card">📊 Customise Quiz</div></a>
   </section>
 
   <!-- Features Section -->

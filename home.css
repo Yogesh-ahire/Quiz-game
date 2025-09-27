@@ -18,7 +18,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 15px 40px;
-  background: #5a4ff7;
+  background: #292198;
   color: #fff;
   position: sticky;
   top: 0;
@@ -30,15 +30,21 @@ body {
   font-weight: bold;
 }
 
-.navbar nav a {
+.navbar nav {
+  display: flex;
+}
+
+.navbar nav div{
   margin-left: 20px;
   color: #fff;
   text-decoration: none;
+  padding: 5px;
+  border-radius: 5px;
   font-weight: 500;
 }
 
-.navbar nav a:hover {
-  text-decoration: underline;
+.navbar nav div:hover {
+  background-color: #807e9c;
 }
 
 .logout-btn {

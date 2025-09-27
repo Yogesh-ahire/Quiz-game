@@ -1,0 +1,86 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #f9f9f9;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background: #292198;
+  color: #fff;
+}
+
+.navbar nav {
+  display: flex;
+}
+
+.navbar nav div{
+  margin-left: 20px;
+  color: #fff;
+  text-decoration: none;
+  padding: 5px;
+  border-radius: 5px;
+  font-weight: 500;
+}
+
+.navbar nav div:hover {
+  background-color: #807e9c;
+}
+
+.logout-btn {
+  margin-left: 20px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background: #e74c3c;
+  color: #fff;
+  cursor: pointer;
+}
+
+.leaderboard-section {
+  padding: 40px;
+  text-align: center;
+}
+
+.leaderboard-section .title {
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.leaderboard-list {
+  max-width: 600px;
+  margin: auto;
+  background: #fff;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.leaderboard-entry {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.leaderboard-entry:last-child {
+  border-bottom: none;
+}
+
+.leaderboard-entry span {
+  font-weight: 500;
+}
+
+.leaderboard-entry .score {
+  font-weight: bold;
+  color: #0072ff;
+}
+
+.leaderboard-entry:nth-child(1) { background: #ffe082; font-weight: bold; }
+.leaderboard-entry:nth-child(2) { background: #e0e0e0; }
+.leaderboard-entry:nth-child(3) { background: #ffd54f; }

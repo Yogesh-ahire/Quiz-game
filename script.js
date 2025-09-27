@@ -19,6 +19,8 @@ let currentQuestionIndex;
 let usedQuestions = [];
 let score = 0;
 let currentQ = 0;
+let quizStartTime = 0;
+let quizEndTime = 0;
 
 // Default Quiz Configuration
 let quizConfig = JSON.parse(localStorage.getItem("customQuiz")) || {
@@ -224,7 +226,7 @@ function playAgain() {
     submitBtn.style.display = "block";
     scoreCard.innerHTML = "";
     progressCircle.style.display = "flex";
-
+    quizStartTime = Date.now();
     pickRandomQuestion();
 }
 
@@ -240,7 +242,7 @@ function showScore() {
     skipBtn.textContent = "Play Again";
     skipBtn.classList.add('playAgain');
 
-    let percentage = Math.round((score /(quizConfig.amount * 5)) * 100);
+    let percentage = Math.round((score / (quizConfig.amount * 5)) * 100);
 
     // Determine circle color class
     let circleClass = percentage >= 70 ? 'high' : percentage >= 40 ? 'mid' : 'low';
@@ -253,7 +255,7 @@ function showScore() {
             </div>
             <p class="score-text">You Scored <b>${score}</b> out of ${quizConfig.amount * 5}</p>
             <p class="score-text">${percentage >= 70 ? "🔥 Excellent job!" : percentage >= 40 ? "👍 Good effort!" : "😢 Keep practicing!"}</p>
-            <a href= "index.html"><button id="getback">Home</button></a>
+            <a href= "index.html" target="_self"><button id="getback">Home</button></a>
         </div>
     `;
 
@@ -270,6 +272,42 @@ function showScore() {
             insideCircle.textContent = `${progress}%`;
         }
     }, 15); // Adjust speed
+
+    quizEndTime = Date.now();
+
+
+    const categoryMap = {
+        9: "General Knowledge", 10: "Books", 11: "Film", 12: "Music",
+        13: "Musicals & Theatres", 14: "Television", 15: "Video Games",
+        16: "Board Games", 17: "Science & Nature", 18: "Computers",
+        19: "Mathematics", 20: "Mythology", 21: "Sports",
+        22: "Geography", 23: "History", 24: "Politics",
+        25: "Art", 26: "Celebrities", 27: "Animals",
+        28: "Vehicles", 29: "Comics", 30: "Gadgets",
+        31: "Anime & Manga", 32: "Cartoons & Animation"
+    };
+
+
+    // Get player name from localStorage (or use Guest)
+const username = localStorage.getItem("quizUsername") || "Guest";
+
+// Store quiz attempt in history
+const quizHistory = JSON.parse(localStorage.getItem("quizHistory")) || [];
+quizHistory.push({
+    player: username, // ✅ Added
+    category: categoryMap[quizConfig.category] || "General Knowledge",
+    difficulty: quizConfig.difficulty || "Mixed",
+    numQuestions: quizConfig.amount || 10,
+    score: score,
+    maxScore: (quizConfig.amount || 10) * 5,
+    timeTaken: Math.floor((quizEndTime - quizStartTime) / 1000) || 0,
+    date: new Date().toLocaleString()
+});
+localStorage.setItem("quizHistory", JSON.stringify(quizHistory));
+
+
+
+
 }
 
 
@@ -309,6 +347,7 @@ function startQuiz() {
     welcomeScreen.style.display = "none";
     gameBox.style.display = "block";
     questionTimer.textContent = quizConfig.timer;
+    quizStartTime = Date.now();
     pickRandomQuestion();
 }
 

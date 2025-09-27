@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaderboard</title>
+  <link rel="stylesheet" href="leaderboard.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">QuizApp</div>
+    <nav>
+      <div  onclick="window.location.href='index.html'">Home</div>
+      <div  onclick="window.location.href='categories.html'">Categories</div>
+      <!-- Logout button -->
+      <button id="logoutBtn" class="logout-btn">Logout</button>
+    </nav>
+  </header>
+
+  <section class="leaderboard-section">
+    <h1 class="title">🏆 Leaderboard</h1>
+    <div id="leaderboard-list" class="leaderboard-list">
+      <!-- JS will inject leaderboard entries -->
+    </div>
+  </section>
+
+  <script src="leaderboard.js"></script>
+</body>
+</html>
