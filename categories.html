@@ -3,21 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Exlpore Categories with - Quiz Buddy</title>
-   <link rel="icon" type="image/x-icon" href="logo.png">
+  <title>Explore Categories - Quiz Buddy</title>
+  <link rel="icon" type="image/x-icon" href="logo.png">
   <link rel="stylesheet" href="categories.css">
 </head>
 <body>
   <!-- Navbar -->
-   <header class="navbar">
+  <header class="navbar">
     <div class="logo">
       <img src="logo.png" alt="logo">
       <div>Quiz Buddy</div>
     </div>
-    <nav>
-      <div  onclick="window.location.href='index.html'">Home</div>
-      <div  onclick="window.location.href='leaderboard.html'">Leaderboard</div>
-      <!-- Logout button -->
+
+    <!-- Hamburger for small screens -->
+    <div class="hamburger" id="hamburger">
+      &#9776;
+    </div>
+
+    <nav id="nav-links">
+      <div onclick="window.location.href='index.html'">Home</div>
+      <div onclick="window.location.href='leaderboard.html'">Leaderboard</div>
       <button id="logoutBtn" class="logout-btn">Logout</button>
     </nav>
   </header>
@@ -30,5 +35,14 @@
   </section>
 
   <script src="categories.js"></script>
+  <script>
+    // Hamburger menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('nav-links');
+
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+  </script>
 </body>
 </html>

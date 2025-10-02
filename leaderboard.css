@@ -6,48 +6,50 @@ body {
   color: #333;
 }
 
+/* ===== NAVBAR ===== */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 15px 40px;
-background: #a4c9d2;
-  color: #000000;
+  background: #a4c9d2;
+  color: #000;
   position: sticky;
-top: 0;
-left: 0;
+  top: 0;
+  left: 0;
+  z-index: 100;
 }
 
 .navbar .logo {
-  width: auto;   /* let the content decide */
-  height: auto;
   display: flex;
+  align-items: center;
 }
-
-
 
 .navbar .logo img {
-  width: 40px;   /* set a proper size */
-  height: auto;  /* keeps aspect ratio */
+  width: 40px;
+  height: auto;
 }
 
-.navbar .logo div{
+.navbar .logo div {
   font-size: 30px;
   font-weight: 600;
-
+  margin-left: 10px;
 }
 
 .navbar nav {
   display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
-.navbar nav div{
+.navbar nav div {
   margin-left: 20px;
-  color: #000000;
+  color: #000;
   text-decoration: none;
   padding: 5px;
   border-radius: 5px;
   font-weight: 500;
+  cursor: pointer;
 }
 
 .navbar nav div:hover {
@@ -65,10 +67,20 @@ left: 0;
   cursor: pointer;
 }
 
+.logout-btn:hover {
+  background: #c0392b;
+}
 
+/* Hamburger icon for small screens */
+.hamburger {
+  display: none;
+  font-size: 30px;
+  cursor: pointer;
+}
 
+/* ===== LEADERBOARD SECTION ===== */
 .leaderboard-section {
-  padding: 40px;
+  padding: 40px 20px;
   text-align: center;
 }
 
@@ -109,3 +121,51 @@ left: 0;
 .leaderboard-entry:nth-child(1) { background: #ffe082; font-weight: bold; }
 .leaderboard-entry:nth-child(2) { background: #e0e0e0; }
 .leaderboard-entry:nth-child(3) { background: #ffd54f; }
+
+/* ===== RESPONSIVE ===== */
+@media screen and (max-width: 768px) {
+  .navbar nav {
+    display: none;
+    flex-direction: column;
+    background: #a4c9d2;
+    width: 30%;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    border-radius: 19px;
+    padding: 10px 0;
+  }
+
+  .navbar nav.active {
+    display: flex;
+  }
+
+  .navbar nav div, .logout-btn {
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .leaderboard-section {
+    padding: 30px 15px;
+  }
+
+  .leaderboard-list {
+    width: 100%;
+    padding: 15px;
+    margin-left: -12px;
+  }
+
+  .leaderboard-entry {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .leaderboard-entry .score {
+    margin-top: 5px;
+  }
+}

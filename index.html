@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz Buddy - Play Learn & Have a Fun</title>
-   <link rel="icon" type="image/x-icon" href="logo.png">
+  <title>Quiz Buddy - Play Learn & Have Fun</title>
+  <link rel="icon" type="image/x-icon" href="logo.png">
   <link rel="stylesheet" href="home.css">
 </head>
 <body>
@@ -14,9 +14,13 @@
       <img src="logo.png" alt="logo">
       <div>Quiz Buddy</div>
     </div>
-    <nav>
-      <div  onclick="window.location.href='categories.html'">Categories</div>
-      <div  onclick="window.location.href='leaderboard.html'">Leaderboard</div>
+
+    <!-- Hamburger Icon -->
+    <div class="menu-toggle" id="menu-toggle">☰</div>
+
+    <nav id="nav-links">
+      <div onclick="window.location.href='categories.html'">Categories</div>
+      <div onclick="window.location.href='leaderboard.html'">Leaderboard</div>
       <!-- Logout button -->
       <button id="logoutBtn" class="logout-btn">Logout</button>
     </nav>
@@ -27,7 +31,7 @@
     <div class="hero-text">
       <h1 id="welcomeText"></h1>
       <p>Play today and test your knowledge in fun categories!</p>
-      <button class="cta-btn" onclick="window.location.href='history.html'" >History</button>
+      <button class="cta-btn" onclick="window.location.href='history.html'">History</button>
     </div>
     <div class="hero-img">
       <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Trophy">
