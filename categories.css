@@ -1,4 +1,4 @@
-/* ===== GLOBAL ===== */
+
 body {
   font-family: 'Poppins', sans-serif;
   background: #f9f9f9;
@@ -7,7 +7,7 @@ body {
   color: #333;
 }
 
-/* ===== NAVBAR ===== */
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -71,14 +71,14 @@ body {
   background: #c0392b;
 }
 
-/* Hamburger icon for small screens */
+
 .hamburger {
   display: none;
   font-size: 30px;
   cursor: pointer;
 }
 
-/* ===== CATEGORIES SECTION ===== */
+/*  categories section */
 .categories-section {
   padding: 40px 20px;
   text-align: center;
@@ -109,7 +109,7 @@ body {
   background: #f0f0f0;
 }
 
-/* ===== RESPONSIVE ===== */
+
 @media screen and (max-width: 768px) {
   .navbar nav {
     display: none;

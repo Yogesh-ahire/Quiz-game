@@ -4,7 +4,7 @@ body {
   background: #f9f9f9;
 }
 
-/* ===== NAVBAR ===== */
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -68,14 +68,13 @@ body {
   background: #c0392b;
 }
 
-/* Hamburger icon for small screens */
 .hamburger {
   display: none;
   font-size: 30px;
   cursor: pointer;
 }
 
-/* ===== CUSTOM FORM ===== */
+/* form */
 .custom-container {
   max-width: 500px;
   margin: 40px auto;
@@ -117,7 +116,7 @@ select, input[type="number"], .start-btn {
   background: #357ab8;
 }
 
-/* ===== RESPONSIVE ===== */
+
 @media screen and (max-width: 768px) {
   .navbar nav {
     display: none;

@@ -6,7 +6,7 @@ body {
   color: #333;
 }
 
-/* ===== NAVBAR ===== */
+/*navbar*/
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -71,14 +71,14 @@ body {
   background: #c0392b;
 }
 
-/* Hamburger icon for small screens */
+
 .hamburger {
   display: none;
   font-size: 30px;
   cursor: pointer;
 }
 
-/* ===== LEADERBOARD SECTION ===== */
+/*leaderboard*/
 .leaderboard-section {
   padding: 40px 20px;
   text-align: center;
@@ -122,7 +122,7 @@ body {
 .leaderboard-entry:nth-child(2) { background: #e0e0e0; }
 .leaderboard-entry:nth-child(3) { background: #ffd54f; }
 
-/* ===== RESPONSIVE ===== */
+
 @media screen and (max-width: 768px) {
   .navbar nav {
     display: none;

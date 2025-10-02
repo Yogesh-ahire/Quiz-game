@@ -22,7 +22,7 @@ categories.forEach(cat => {
   div.className = "category-card";
   div.textContent = cat.name;
   div.addEventListener("click", () => {
-    // Save selected category to localStorage & go to custom quiz
+    // Save selected category to localStorage
     const quizConfig = {
       category: cat.id,
       difficulty: "easy",
@@ -36,7 +36,7 @@ categories.forEach(cat => {
   container.appendChild(div);
 });
 
-// Logout
+
 document.getElementById("logoutBtn").addEventListener("click", () => {
   localStorage.removeItem("quizUsername");
   window.location.href = "login.html";

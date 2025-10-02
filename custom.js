@@ -35,16 +35,14 @@ categories.forEach(cat => {
   categorySelect.appendChild(option);
 });
 
-// Timer toggle
+
 const timerToggle = document.getElementById("timerToggle");
 const timerOptions = document.getElementById("timerOptions");
 const timerInput = document.getElementById("timer");
 const timerValue = document.getElementById("timerValue");
 
-// Initially hide timer options
 timerOptions.style.display = "none";
 
-// Show/hide timer options
 timerToggle.addEventListener("change", () => {
   timerOptions.style.display = timerToggle.checked ? "block" : "none";
 });
@@ -54,7 +52,6 @@ timerInput.addEventListener("input", () => {
   timerValue.textContent = `${timerInput.value}s`;
 });
 
-// Form submission
 document.getElementById("customForm").addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -69,19 +66,15 @@ document.getElementById("customForm").addEventListener("submit", (e) => {
     return;
   }
 
-  // Build API URL
   const apiUrl = `https://opentdb.com/api.php?amount=${amount}&category=${category}&difficulty=${difficulty}&type=multiple`;
 
-  // Save quiz config in localStorage
   localStorage.setItem("customQuiz", JSON.stringify({
     category, difficulty, amount, timer, apiUrl
   }));
 
-  // Redirect to quiz page
   window.location.href = "quiz.html";
 });
 
-// Logout Button
 document.getElementById("logoutBtn").addEventListener("click", () => {
   localStorage.removeItem("quizUsername");
   window.location.href = "login.html";

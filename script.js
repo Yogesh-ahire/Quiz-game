@@ -1,8 +1,8 @@
 // ================= DOM ELEMENTS =================
 const questionBox = document.querySelector('.question');
 const choicesBox = document.querySelector('.choices');
-const submitBtn = document.querySelector('.nextBtn'); // Submit button
-const skipBtn = document.querySelector('.next');      // Skip/Next button
+const submitBtn = document.querySelector('.nextBtn'); 
+const skipBtn = document.querySelector('.next');      
 const scoreCard = document.querySelector('.scoreCard');
 const welcomeScreen = document.querySelector('#welcome');
 const startBtn = document.querySelector('#start');
@@ -13,7 +13,7 @@ const gameTimer = document.querySelector('#Qtimer-game');
 const noticeBoard = document.querySelector('#notice-statements');
 const questionTimer = document.querySelector('.timer');
 
-// ================= GAME VARIABLES =================
+//  GAME VARIABLES 
 let quiz = [];
 let currentQuestionIndex;
 let usedQuestions = [];
@@ -34,8 +34,6 @@ let quizConfig = JSON.parse(localStorage.getItem("customQuiz")) || {
 // Hide game area and timers initially
 noticeTimer.style.display = "none";
 gameBox.style.display = "none";
-
-// ================= UTILITY FUNCTIONS =================
 
 // Decode HTML entities
 function decodeHtml(html) {
@@ -62,7 +60,7 @@ function transformData(apiData) {
     }));
 }
 
-// ================= LOAD QUIZ DATA =================
+//LOAD QUIZ DATA 
 async function loadQuizData() {
     try {
         const res = await fetch(quizConfig.apiUrl);
@@ -80,7 +78,7 @@ async function loadQuizData() {
     }
 }
 
-// ================= NOTICE BOARD =================
+// NOTICE BOARD 
 function updateNoticeBoard() {
     const categories = [
         { id: 9, name: "General Knowledge" }, { id: 10, name: "Entertainment: Books" },
@@ -110,7 +108,7 @@ function updateNoticeBoard() {
     noticeBoard.style.display = "block";
 }
 
-// ================= QUESTION TIMER =================
+//QUESTION TIMER 
 
 
 function startQuestionTimer() {
@@ -127,13 +125,12 @@ function startQuestionTimer() {
         }
     }, 1000);
 
-    // Clear interval on click
     submitBtn.addEventListener('click', () => clearInterval(interval));
     skipBtn.addEventListener('click', () => clearInterval(interval));
 }
 
 
-// ================= DISPLAY QUESTIONS =================
+// display questions
 function showQuestion() {
     gameTimer.style.display = "none";
     questionTimer.style.display = "none";
@@ -163,7 +160,7 @@ function showQuestion() {
     });
 }
 
-// ================= RANDOM QUESTION PICKER =================
+// pick random question
 function pickRandomQuestion() {
     const idx = Math.floor(Math.random() * quizConfig.amount);
     currentQuestionIndex = idx;
@@ -179,7 +176,7 @@ function pickRandomQuestion() {
     }
 }
 
-// ================= CHECK ANSWER =================
+// check answer
 function checkAnswer() {
     const selected = document.querySelector('.choice.selected');
     if (!selected) return;
@@ -189,7 +186,7 @@ function checkAnswer() {
         selected.classList.add('correct');
     } else {
         selected.classList.add('wrong');
-        // Highlight correct choice
+        
         choicesBox.querySelectorAll('.choice').forEach(c => {
             if (c.textContent === quiz[currentQuestionIndex].answer) c.classList.add('correct');
         });
@@ -198,7 +195,7 @@ function checkAnswer() {
     setTimeout(() => pickRandomQuestion(), 1000);
 }
 
-// ================= SKIP QUESTION =================
+// skip logic
 function skipQuestion() {
     if (skipBtn.textContent === "Skip") pickRandomQuestion();
     else {
@@ -215,7 +212,6 @@ function skipQuestion() {
     }
 }
 
-// ================= PLAY AGAIN =================
 function playAgain() {
     usedQuestions = [];
     score = 0;
@@ -230,7 +226,7 @@ function playAgain() {
     pickRandomQuestion();
 }
 
-// ================= SHOW SCORE =================
+// score card and logic
 function showScore() {
     questionBox.style.display = "none";
     choicesBox.style.display = "none";
@@ -271,7 +267,7 @@ function showScore() {
             circle.style.setProperty('--progress', progress);
             insideCircle.textContent = `${progress}%`;
         }
-    }, 15); // Adjust speed
+    }, 15); 
 
     quizEndTime = Date.now();
 
@@ -288,13 +284,13 @@ function showScore() {
     };
 
 
-    // Get player name from localStorage (or use Guest)
+
 const username = localStorage.getItem("quizUsername") || "Guest";
 
-// Store quiz attempt in history
+
 const quizHistory = JSON.parse(localStorage.getItem("quizHistory")) || [];
 quizHistory.push({
-    player: username, // ✅ Added
+    player: username, 
     category: categoryMap[quizConfig.category] || "General Knowledge",
     difficulty: quizConfig.difficulty || "Mixed",
     numQuestions: quizConfig.amount || 10,
@@ -311,7 +307,7 @@ localStorage.setItem("quizHistory", JSON.stringify(quizHistory));
 }
 
 
-// ================= PROGRESS BAR =================
+// Question tracker
 function updateProgress(current, total) {
     const percent = (current / total) * 360;
     progressCircle.style.background = `conic-gradient(#00c6ff ${percent}deg, #ddd ${percent}deg)`;
@@ -323,7 +319,7 @@ function nextQuestion() {
     updateProgress(currentQ, quizConfig.amount);
 }
 
-// ================= COUNTDOWN BEFORE QUIZ =================
+// COUNTDOWN BEFORE QUIZ
 function startCountdown() {
     noticeBoard.style.display = "none";
     noticeTimer.style.display = "flex";
@@ -342,7 +338,7 @@ function startCountdown() {
     }, 980);
 }
 
-// ================= START QUIZ =================
+
 function startQuiz() {
     welcomeScreen.style.display = "none";
     gameBox.style.display = "block";
@@ -351,7 +347,7 @@ function startQuiz() {
     pickRandomQuestion();
 }
 
-// ================= EVENT LISTENERS =================
+
 updateNoticeBoard();
 
 startBtn.addEventListener('click', () => {

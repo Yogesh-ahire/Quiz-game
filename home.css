@@ -1,4 +1,4 @@
-/* General Reset */
+
 * {
   margin: 0;
   padding: 0;
@@ -74,7 +74,7 @@ nav div:hover {
   background: #c0392b;
 }
 
-/* Hamburger Icon */
+
 .menu-toggle {
   display: none;
   font-size: 28px;
@@ -186,7 +186,7 @@ a {
   transform: translateY(-5px);
 }
 
-/* Responsive Navbar */
+
 @media (max-width: 768px) {
   .menu-toggle {
     display: block;

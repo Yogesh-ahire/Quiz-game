@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
+  
   historyData.reverse().forEach((quiz, index) => {
     const percentage = Math.round((quiz.score / quiz.maxScore) * 100);
     let scoreClass = percentage >= 75 ? "high" : percentage >= 50 ? "mid" : "low";

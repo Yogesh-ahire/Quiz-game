@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  // ✅ Group by player and keep best (highest score, then fastest)
   const bestScores = {};
   history.forEach(item => {
     const percentage = (item.score / item.maxScore) * 100;
@@ -24,7 +23,6 @@ document.addEventListener("DOMContentLoaded", () => {
       };
     } else {
       const existing = bestScores[item.player];
-      // Compare score first, then timeTaken
       if (
         percentage > existing.percentage ||
         (percentage === existing.percentage && item.timeTaken < existing.timeTaken)
@@ -45,12 +43,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // Convert to array and sort (higher score first, then faster time)
   const sorted = Object.values(bestScores).sort((a, b) => {
     if (b.percentage === a.percentage) {
-      return a.timeTaken - b.timeTaken; // lower time = higher rank
+      return a.timeTaken - b.timeTaken; 
     }
     return b.percentage - a.percentage;
   });
 
-  // ✅ Render top 10 with time shown
   sorted.slice(0, 10).forEach((item, index) => {
     const div = document.createElement("div");
     div.className = "leaderboard-entry";
@@ -63,7 +60,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// Logout
 document.getElementById("logoutBtn").addEventListener("click", () => {
   localStorage.removeItem("quizUsername");
   window.location.href = "login.html";
