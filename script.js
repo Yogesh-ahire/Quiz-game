@@ -1,8 +1,8 @@
 // ================= DOM ELEMENTS =================
 const questionBox = document.querySelector('.question');
 const choicesBox = document.querySelector('.choices');
-const submitBtn = document.querySelector('.nextBtn'); 
-const skipBtn = document.querySelector('.next');      
+const submitBtn = document.querySelector('.nextBtn');
+const skipBtn = document.querySelector('.next');
 const scoreCard = document.querySelector('.scoreCard');
 const welcomeScreen = document.querySelector('#welcome');
 const startBtn = document.querySelector('#start');
@@ -60,7 +60,7 @@ function transformData(apiData) {
     }));
 }
 
-//LOAD QUIZ DATA 
+//load data 
 async function loadQuizData() {
     try {
         const res = await fetch(quizConfig.apiUrl);
@@ -70,15 +70,17 @@ async function loadQuizData() {
             return transformData(data);
         } else {
             alert("Failed to fetch quiz. Please try again.");
+            window.location.href = "quiz.html";
             return [];
         }
     } catch (error) {
         alert("Error fetching quiz. Check your internet connection.");
+        window.location.href = "quiz.html";
         return [];
     }
 }
 
-// NOTICE BOARD 
+// notice board
 function updateNoticeBoard() {
     const categories = [
         { id: 9, name: "General Knowledge" }, { id: 10, name: "Entertainment: Books" },
@@ -97,7 +99,7 @@ function updateNoticeBoard() {
 
     const categoryName = categories.find(c => c.id == quizConfig.category)?.name || "General Knowledge";
 
-    // Update notice board
+    // update notice board
     noticeBoard.querySelector("ul").innerHTML = `
         <li>${categoryName} - ${quizConfig.difficulty} level</li>
         <li>Total Questions: ${quizConfig.amount}</li>
@@ -108,9 +110,7 @@ function updateNoticeBoard() {
     noticeBoard.style.display = "block";
 }
 
-//QUESTION TIMER 
-
-
+//Quiz timer
 function startQuestionTimer() {
     questionTimer.style.display = "flex";
     let timeLeft = quizConfig.timer;
@@ -186,7 +186,7 @@ function checkAnswer() {
         selected.classList.add('correct');
     } else {
         selected.classList.add('wrong');
-        
+
         choicesBox.querySelectorAll('.choice').forEach(c => {
             if (c.textContent === quiz[currentQuestionIndex].answer) c.classList.add('correct');
         });
@@ -267,7 +267,7 @@ function showScore() {
             circle.style.setProperty('--progress', progress);
             insideCircle.textContent = `${progress}%`;
         }
-    }, 15); 
+    }, 15);
 
     quizEndTime = Date.now();
 
@@ -285,21 +285,21 @@ function showScore() {
 
 
 
-const username = localStorage.getItem("quizUsername") || "Guest";
+    const username = localStorage.getItem("quizUsername") || "Guest";
 
 
-const quizHistory = JSON.parse(localStorage.getItem("quizHistory")) || [];
-quizHistory.push({
-    player: username, 
-    category: categoryMap[quizConfig.category] || "General Knowledge",
-    difficulty: quizConfig.difficulty || "Mixed",
-    numQuestions: quizConfig.amount || 10,
-    score: score,
-    maxScore: (quizConfig.amount || 10) * 5,
-    timeTaken: Math.floor((quizEndTime - quizStartTime) / 1000) || 0,
-    date: new Date().toLocaleString()
-});
-localStorage.setItem("quizHistory", JSON.stringify(quizHistory));
+    const quizHistory = JSON.parse(localStorage.getItem("quizHistory")) || [];
+    quizHistory.push({
+        player: username,
+        category: categoryMap[quizConfig.category] || "General Knowledge",
+        difficulty: quizConfig.difficulty || "Mixed",
+        numQuestions: quizConfig.amount || 10,
+        score: score,
+        maxScore: (quizConfig.amount || 10) * 5,
+        timeTaken: Math.floor((quizEndTime - quizStartTime) / 1000) || 0,
+        date: new Date().toLocaleString()
+    });
+    localStorage.setItem("quizHistory", JSON.stringify(quizHistory));
 
 
 
@@ -340,6 +340,9 @@ function startCountdown() {
 
 
 function startQuiz() {
+    if (quiz.length < 0) {
+        window.location.href = "quiz.html";
+    }
     welcomeScreen.style.display = "none";
     gameBox.style.display = "block";
     questionTimer.textContent = quizConfig.timer;
@@ -355,9 +358,9 @@ startBtn.addEventListener('click', () => {
     startBtn.disabled = true;
     loadQuizData().then(q => {
         quiz = q;
+        startCountdown();
+        setTimeout(() => startQuiz(), 5100);
     });
-    startCountdown();
-    setTimeout(() => startQuiz(), 5100);
 });
 
 submitBtn.addEventListener('click', checkAnswer);
