@@ -83,28 +83,6 @@ A dynamic quiz engine that manages the complete quiz lifecycle:
 
 ---
 
-# Application Screenshots
-
-### Home Screen
-
-<p align="center">
-  <img src="public/home.png" width="800"/>
-</p>
-
-### Quiz Gameplay
-
-<p align="center">
-  <img src="public/quiz.png" width="800"/>
-</p>
-
-### History Page
-
-<p align="center">
-  <img src="public/history.png" width="800"/>
-</p>
-
----
-
 # Tech Stack
 
 ### Frontend
